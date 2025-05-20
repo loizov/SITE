@@ -1,0 +1,34 @@
+<!doctype html>
+<html lang="ru">
+<head>
+    <meta charset="utf-8">
+    <title>Матч #{{ match.id }}</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@3.4.3/dist/tailwind.min.css" rel="stylesheet">
+</head>
+<body class="bg-gray-900 text-white flex flex-col items-center min-h-screen">
+    <h1 class="text-3xl mt-8 mb-4">Матч #{{ match.id }}</h1>
+    <div>
+        Сервер: <b>{{ match.server_ip or "ожидание..." }}</b>
+    </div>
+    <div class="mt-6">
+        <h2 class="text-xl">Игроки:</h2>
+        <ul>
+            {% for p in players %}
+                <li>{{ p.nickname }} (ELO: {{ p.elo }})</li>
+            {% endfor %}
+        </ul>
+    </div>
+    {% if match.state == 'playing' %}
+    <div class="mt-8">
+        <a href="{{ url_for('observer_link', match_id=match.id) }}" class="bg-blue-600 px-6 py-3 rounded-lg font-bold">
+            Наблюдать
+        </a>
+    </div>
+    {% endif %}
+    {% if match.state == 'finished' %}
+    <div class="mt-8 text-green-400">
+        Матч завершён! Победители: {{ match.winner_team }}
+    </div>
+    {% endif %}
+</body>
+</html>

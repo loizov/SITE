@@ -1,0 +1,13 @@
+{% include 'layout.html' %}
+{% block content %}
+<div class="flex flex-col items-center pt-20">
+    <img src="{{ player.avatar_url or 'https://i.imgur.com/1Q3Z1Z1.png' }}" class="w-32 h-32 rounded-full border-4 border-[#ef2323] mb-4">
+    <h2 class="text-2xl text-white font-bold mb-1">{{ player.nickname }}</h2>
+    <div class="text-[#ef2323] text-xl mb-6">{{ player.elo }} ELO</div>
+    <div class="bg-[#191919] rounded-xl p-6 text-gray-400 max-w-lg w-full">
+        <div class="mb-2"><b>Побед:</b> {{ player.wins or 0 }}</div>
+        <div class="mb-2"><b>Поражений:</b> {{ player.losses or 0 }}</div>
+        <div><b>Матчей сыграно:</b> {{ player.matches or 0 }}</div>
+    </div>
+</div>
+{% endblock %}

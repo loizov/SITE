@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="ru">
+<head>
+    <meta charset="utf-8">
+    <title>{% block title %}CS:R{% endblock %}</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@3.4.3/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700&display=swap">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <style>
+        body { font-family: 'Orbitron', 'Arial', sans-serif; background: #0e0e0e; }
+        .sidebar { width: 220px; min-height: 100vh; background: #101010; border-right: 2px solid #191919; }
+        .sidebar .active { color: #fff; background: #181818; border-left: 3px solid #ef2323; }
+        .sidebar .item {
+            color: #bababa; padding: 14px 24px; display: flex; align-items: center; cursor: pointer;
+            transition: background .2s, color .2s;
+        }
+        .sidebar .item:hover { color: #fff; background: #181818; }
+        .sidebar .item .material-icons { margin-right: 16px; }
+        .navtop {
+            background: #141414; border-bottom: 2px solid #191919; display: flex; align-items: center; 
+            padding: 0 40px; height: 60px; justify-content: space-between;
+        }
+        .navtop .logo {
+            font-size: 1.6rem; color: #fff; font-weight: bold; letter-spacing: 2px;
+        }
+        .navtop .logo span { color: #ef2323; }
+        .navtop .nav { display: flex; align-items: center; gap: 40px; }
+        .navtop .nav a {
+            color: #bababa; padding-bottom: 5px; text-decoration: none; font-size: 1.05rem;
+            transition: color .15s; border-bottom: 2px solid transparent;
+        }
+        .navtop .nav a.active, .navtop .nav a:hover { color: #fff; border-bottom: 2px solid #ef2323; }
+        .navtop .user { display: flex; align-items: center; gap: 10px; }
+        .navtop .user-img {
+            width: 36px; height: 36px; border-radius: 100%; object-fit: cover; border: 2px solid #ef2323;
+        }
+        .btn-main {
+            background: #ef2323; color: #fff; border-radius: 12px; font-size: 1.1rem; 
+            padding: 0.7rem 2.2rem; font-weight: 700; letter-spacing: 1px;
+            box-shadow: 0 2px 20px #ef232355; transition: background .14s, box-shadow .2s;
+        }
+        .btn-main:hover { background: #ff3d3d; box-shadow: 0 2px 30px #ef232366; }
+        @media (max-width: 900px) { .sidebar {display:none;} .navtop {padding:0 12px;} }
+    </style>
+</head>
+<body class="flex min-h-screen">
+    <!-- Sidebar -->
+    <aside class="sidebar flex flex-col pt-8">
+        <div class="mb-6"></div>
+        <a class="item {% if g.menu == 'queue' %}active{% endif %}" href="{{ url_for('queue') }}">
+            <span class="material-icons">sports_esports</span> Matchmaking
+        </a>
+        <a class="item {% if g.menu == 'leaderboard' %}active{% endif %}" href="{{ url_for('leaderboard') }}">
+            <span class="material-icons">leaderboard</span> Leaderboard
+        </a>
+        <a class="item {% if g.menu == 'friends' %}active{% endif %}" href="#">
+            <span class="material-icons">group</span> Friends
+        </a>
+        <a class="item {% if g.menu == 'history' %}active{% endif %}" href="{{ url_for('history') }}">
+            <span class="material-icons">history</span> History
+        </a>
+    </aside>
+    <!-- Main Content -->
+    <div class="flex-1 min-h-screen">
+        <!-- Top Navigation -->
+        <div class="navtop">
+            <div class="logo">CS:<span>R</span></div>
+            <nav class="nav">
+                <a href="#" class="">News</a>
+                <a href="#" class="active">Play</a>
+                <a href="#">Servers</a>
+                <a href="#">Discord</a>
+            </nav>
+            <div class="user">
+                <img class="user-img" src="{{ user.avatar_url or 'https://i.imgur.com/1Q3Z1Z1.png' }}" alt="avatar">
+                <div>
+                    <div class="text-white" style="font-size:1.07rem;">{{ user.nickname }}</div>
+                    <div style="font-size:.93rem;color:#ef2323;">{{ user.elo }} ELO</div>
+                </div>
+            </div>
+        </div>
+        <main>{% block content %}{% endblock %}</main>
+    </div>
+</body>
+</html>
